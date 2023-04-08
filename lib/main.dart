@@ -30,6 +30,13 @@ class MyExpensesApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
+          titleSmall: const TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 12,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+            color: Colors.white,
+          ),
         ),
         appBarTheme: const AppBarTheme(
           titleTextStyle: TextStyle(
@@ -52,54 +59,54 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static final List<Transaction> _transactions = [
-    Transaction(
-      id: 't1',
-      title: 'Run shoes',
-      value: 316.76,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Light bill',
-      value: 311.30,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't3',
-      title: 'College bill',
-      value: 1321.20,
-      date: DateTime.now().subtract(const Duration(days: 2)),
-    ),
-    Transaction(
-      id: 't4',
-      title: 'Credcard bill',
-      value: 355.50,
-      date: DateTime.now().subtract(const Duration(days: 2)),
-    ),
-    Transaction(
-      id: 't5',
-      title: 'Medical appointment bill',
-      value: 555.50,
-      date: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    Transaction(
-      id: 't6',
-      title: 'Bill 1',
-      value: 255.50,
-      date: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    Transaction(
-      id: 't7',
-      title: 'Bill 2',
-      value: 25.50,
-      date: DateTime.now().subtract(const Duration(days: 3)),
-    ),
-    Transaction(
-      id: 't8',
-      title: 'Bill 3',
-      value: 256.00,
-      date: DateTime.now().subtract(const Duration(days: 4)),
-    ),
+    // Transaction(
+    //   id: 't1',
+    //   title: 'Run shoes',
+    //   value: 316.76,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't2',
+    //   title: 'Light bill',
+    //   value: 311.30,
+    //   date: DateTime.now(),
+    // ),
+    // Transaction(
+    //   id: 't3',
+    //   title: 'College bill',
+    //   value: 11321.20,
+    //   date: DateTime.now().subtract(const Duration(days: 2)),
+    // ),
+    // Transaction(
+    //   id: 't4',
+    //   title: 'Credcard bill',
+    //   value: 355.50,
+    //   date: DateTime.now().subtract(const Duration(days: 2)),
+    // ),
+    // Transaction(
+    //   id: 't5',
+    //   title: 'Medical appointment bill',
+    //   value: 555.50,
+    //   date: DateTime.now().subtract(const Duration(days: 1)),
+    // ),
+    // Transaction(
+    //   id: 't6',
+    //   title: 'Bill 1',
+    //   value: 255.50,
+    //   date: DateTime.now().subtract(const Duration(days: 1)),
+    // ),
+    // Transaction(
+    //   id: 't7',
+    //   title: 'Bill 2',
+    //   value: 25.50,
+    //   date: DateTime.now().subtract(const Duration(days: 3)),
+    // ),
+    // Transaction(
+    //   id: 't8',
+    //   title: 'Bill 3',
+    //   value: 256.00,
+    //   date: DateTime.now().subtract(const Duration(days: 4)),
+    // ),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -108,12 +115,13 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
         id: Random().nextDouble().toString(),
         title: title,
         value: value,
-        date: DateTime.now());
+        date: date
+    );
 
     setState(() {
       _transactions.add(newTransaction);

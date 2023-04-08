@@ -10,69 +10,59 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 500,
-      child:  transactions.isEmpty ? Column(
-        children: <Widget>[
-          const SizedBox(height: 20),
-          Text(
-            'No transactions!',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            height: 200,
-            child: Image.asset(
-              'assets/images/waiting.png',
-              fit: BoxFit.cover,
-            ),
-          ),
-        ],
-      ) : ListView.builder(
-        itemCount: transactions.length,
-        itemBuilder: (ctx, index) {
-          final e = transactions[index];
-          return Card(
-            child: Row(
+      child: transactions.isEmpty
+          ? Column(
               children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.purple,
-                    width: 2,
-                  )),
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    'R\$ ${e.value.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                      color: Colors.purple,
-                    ),
+                const SizedBox(height: 20),
+                Text(
+                  'No transactions!',
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 200,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.cover,
                   ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
+              ],
+            )
+          : ListView.builder(
+              itemCount: transactions.length,
+              itemBuilder: (ctx, index) {
+                final e = transactions[index];
+                return Card(
+                  elevation: 5,
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 5,
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text(
+                            'R\$${e.value}',
+                             style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ),
+                      ),
+                    ),
+                    title: Text(
                       e.title,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    Text(
+                    subtitle: Text(
                       DateFormat('d MMM y').format(e.date),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                      ),
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                );
+              },
             ),
-          );
-        },
-      ),
     );
   }
 }

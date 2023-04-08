@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:my_expenses/components/chart.dart';
 import 'package:my_expenses/components/transaction_form.dart';
 import 'components/transaction_list.dart';
 import 'package:my_expenses/models/transaction.dart';
@@ -67,39 +68,45 @@ class _MyHomePageState extends State<MyHomePage> {
       id: 't3',
       title: 'College bill',
       value: 1321.20,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(const Duration(days: 2)),
     ),
     Transaction(
       id: 't4',
       title: 'Credcard bill',
       value: 355.50,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(const Duration(days: 2)),
     ),
     Transaction(
       id: 't5',
       title: 'Medical appointment bill',
       value: 555.50,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(const Duration(days: 1)),
     ),
     Transaction(
       id: 't6',
       title: 'Bill 1',
       value: 255.50,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(const Duration(days: 1)),
     ),
     Transaction(
       id: 't7',
       title: 'Bill 2',
       value: 25.50,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(const Duration(days: 3)),
     ),
     Transaction(
       id: 't8',
       title: 'Bill 3',
       value: 256.00,
-      date: DateTime.now(),
+      date: DateTime.now().subtract(const Duration(days: 4)),
     ),
   ];
+
+  List<Transaction> get _recentTransactions {
+    return _transactions.where((tr) {
+      return tr.date.isAfter(DateTime.now().subtract(const Duration(days: 7)));
+    }).toList();
+  }
 
   _addTransaction(String title, double value) {
     final newTransaction = Transaction(
@@ -140,14 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             // ignore: sized_box_for_whitespace
-            Container(
-              width: double.infinity,
-              child: const Card(
-                color: Colors.purple,
-                elevation: 5,
-                child: Text('Graphic'),
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(transactions: _transactions),
           ],
         ),

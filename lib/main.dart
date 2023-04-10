@@ -59,48 +59,48 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   static final List<Transaction> _transactions = [
-    // Transaction(
-    //   id: 't1',
-    //   title: 'Run shoes',
-    //   value: 316.76,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't2',
-    //   title: 'Light bill',
-    //   value: 311.30,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: 't3',
-    //   title: 'College bill',
-    //   value: 11321.20,
-    //   date: DateTime.now().subtract(const Duration(days: 2)),
-    // ),
-    // Transaction(
-    //   id: 't4',
-    //   title: 'Credcard bill',
-    //   value: 355.50,
-    //   date: DateTime.now().subtract(const Duration(days: 2)),
-    // ),
-    // Transaction(
-    //   id: 't5',
-    //   title: 'Medical appointment bill',
-    //   value: 555.50,
-    //   date: DateTime.now().subtract(const Duration(days: 1)),
-    // ),
-    // Transaction(
-    //   id: 't6',
-    //   title: 'Bill 1',
-    //   value: 255.50,
-    //   date: DateTime.now().subtract(const Duration(days: 1)),
-    // ),
-    // Transaction(
-    //   id: 't7',
-    //   title: 'Bill 2',
-    //   value: 25.50,
-    //   date: DateTime.now().subtract(const Duration(days: 3)),
-    // ),
+    Transaction(
+      id: 't1',
+      title: 'Run shoes',
+      value: 316.76,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'Light bill',
+      value: 311.30,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'College bill',
+      value: 11321.20,
+      date: DateTime.now().subtract(const Duration(days: 2)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Credcard bill',
+      value: 355.50,
+      date: DateTime.now().subtract(const Duration(days: 2)),
+    ),
+    Transaction(
+      id: 't5',
+      title: 'Medical appointment bill',
+      value: 555.50,
+      date: DateTime.now().subtract(const Duration(days: 1)),
+    ),
+    Transaction(
+      id: 't6',
+      title: 'Bill 1',
+      value: 255.50,
+      date: DateTime.now().subtract(const Duration(days: 1)),
+    ),
+    Transaction(
+      id: 't7',
+      title: 'Bill 2',
+      value: 25.50,
+      date: DateTime.now().subtract(const Duration(days: 3)),
+    ),
     // Transaction(
     //   id: 't8',
     //   title: 'Bill 3',
@@ -120,13 +120,17 @@ class _MyHomePageState extends State<MyHomePage> {
         id: Random().nextDouble().toString(),
         title: title,
         value: value,
-        date: date
-    );
-
+        date: date);
     setState(() {
       _transactions.add(newTransaction);
     });
     Navigator.of(context).pop();
+  }
+
+  _removeTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
   }
 
   _openTransactionFormModal(BuildContext context) {
@@ -156,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             // ignore: sized_box_for_whitespace
             Chart(_recentTransactions),
-            TransactionList(transactions: _transactions),
+            TransactionList(transactions: _transactions, onRemove: _removeTransaction),
           ],
         ),
       ),

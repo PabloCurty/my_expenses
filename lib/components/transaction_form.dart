@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
-  final void Function(String, double, DateTime) onSubmit;
+  final void Function(String, double, DateTime, String) onSubmit;
 
   const TransactionForm(this.onSubmit, {super.key});
 
@@ -15,7 +15,33 @@ class TransactionForm extends StatefulWidget {
 class _TransactionFormState extends State<TransactionForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
+  final _expCategory = TextEditingController();
   DateTime? _selectedDate = DateTime.now();
+  String? dropDownValue;
+  final itens = [
+    'home',
+    'transport',
+    'health',
+    'education',
+    'fun',
+    'food',
+    'clothing',
+    'technology',
+    'creditCard',
+  ];
+
+  DropdownMenuItem<String> buildMenuItem(String item) => DropdownMenuItem(
+        value: item,
+        alignment: Alignment.centerLeft,
+        child: Text(
+          item,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+
+          ),
+        ),
+      );
 
   _submitForm() {
     final title = _titleController.text;
@@ -23,7 +49,8 @@ class _TransactionFormState extends State<TransactionForm> {
     if (title.isEmpty || value <= 0 || _selectedDate == null) {
       return;
     }
-    widget.onSubmit(title, value, _selectedDate!);
+    final expCategory = _expCategory.text;
+    widget.onSubmit(title, value, _selectedDate!, expCategory);
   }
 
   _showDatePicker() {
@@ -47,8 +74,10 @@ class _TransactionFormState extends State<TransactionForm> {
     return Card(
       elevation: 5,
       child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Column(children: <Widget>[
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+          children: <Widget>[
           TextField(
             controller: _titleController,
             onSubmitted: (_) => _submitForm(),
@@ -56,9 +85,32 @@ class _TransactionFormState extends State<TransactionForm> {
               labelText: 'Title',
             ),
           ),
+          Container(
+            height: 40,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              //border: Border.all(color: Colors.purple, width: 2),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                hint: const Text(
+                  'Expenses category',
+                  textAlign: TextAlign.center,
+                ),
+                value: dropDownValue,
+                isExpanded: true,
+                iconSize: 20,
+                icon: const Icon(Icons.arrow_drop_down_circle,
+                    color: Colors.purple),
+                items: itens.map(buildMenuItem).toList(),
+                onChanged: (value) => setState(() => dropDownValue = _expCategory.text = value.toString()),
+              ),
+            ),
+          ),
           TextField(
             controller: _valueController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            keyboardType:
+                const TextInputType.numberWithOptions(decimal: true),
             onSubmitted: (_) => _submitForm(),
             decoration: const InputDecoration(
               labelText: 'Value (R\$)',

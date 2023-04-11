@@ -58,8 +58,9 @@ class TransactionList extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     subtitle: Text(
-                      DateFormat('d MMM y').format(e.date),
+                      '${DateFormat('d MMM y').format(e.date)}\n${e.expenseCategory}',
                     ),
+                    isThreeLine: true,
                     trailing: IconButton(
                       onPressed: () => onRemove(e.id),
                       icon: const Icon(Icons.delete),

@@ -64,49 +64,57 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Run shoes',
       value: 316.76,
       date: DateTime.now(),
+      expenseCategory: 'clothes',
     ),
     Transaction(
       id: 't2',
       title: 'Light bill',
       value: 311.30,
       date: DateTime.now(),
+      expenseCategory: 'home',
     ),
     Transaction(
       id: 't3',
       title: 'College bill',
       value: 11321.20,
       date: DateTime.now().subtract(const Duration(days: 2)),
+      expenseCategory: 'education',
     ),
     Transaction(
       id: 't4',
       title: 'Credcard bill',
       value: 355.50,
       date: DateTime.now().subtract(const Duration(days: 2)),
+      expenseCategory: 'creditCard',
     ),
     Transaction(
       id: 't5',
       title: 'Medical appointment bill',
       value: 555.50,
       date: DateTime.now().subtract(const Duration(days: 1)),
+      expenseCategory: 'helth',
     ),
     Transaction(
       id: 't6',
       title: 'Bill 1',
       value: 255.50,
       date: DateTime.now().subtract(const Duration(days: 1)),
+      expenseCategory: 'food',
     ),
     Transaction(
       id: 't7',
       title: 'Bill 2',
       value: 25.50,
       date: DateTime.now().subtract(const Duration(days: 3)),
+      expenseCategory: 'food',
     ),
-    // Transaction(
-    //   id: 't8',
-    //   title: 'Bill 3',
-    //   value: 256.00,
-    //   date: DateTime.now().subtract(const Duration(days: 4)),
-    // ),
+    Transaction(
+      id: 't8',
+      title: 'Bill 3',
+      value: 256.00,
+      date: DateTime.now().subtract(const Duration(days: 4)),
+      expenseCategory: 'helth',
+    ),
   ];
 
   List<Transaction> get _recentTransactions {
@@ -115,12 +123,14 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value, DateTime date) {
+  _addTransaction(String title, double value, DateTime date, String expCategory) {
     final newTransaction = Transaction(
         id: Random().nextDouble().toString(),
         title: title,
         value: value,
-        date: date);
+        date: date,
+        expenseCategory: expCategory,
+    );
     setState(() {
       _transactions.add(newTransaction);
     });

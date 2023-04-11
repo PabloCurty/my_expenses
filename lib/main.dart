@@ -13,8 +13,10 @@ class MyExpensesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    // ]);
     final ThemeData tema = ThemeData();
-
     return MaterialApp(
       home: const MyHomePage(),
       debugShowCheckedModeBanner: false,
@@ -58,6 +60,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  bool _showChart = false;
   static final List<Transaction> _transactions = [
     Transaction(
       id: 't1',
@@ -76,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Transaction(
       id: 't3',
       title: 'College bill',
-      value: 11321.20,
+      value: 1321.20,
       date: DateTime.now().subtract(const Duration(days: 2)),
       expenseCategory: 'education',
     ),
@@ -123,13 +126,14 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value, DateTime date, String expCategory) {
+  _addTransaction(
+      String title, double value, DateTime date, String expCategory) {
     final newTransaction = Transaction(
-        id: Random().nextDouble().toString(),
-        title: title,
-        value: value,
-        date: date,
-        expenseCategory: expCategory,
+      id: Random().nextDouble().toString(),
+      title: title,
+      value: value,
+      date: date,
+      expenseCategory: expCategory,
     );
     setState(() {
       _transactions.add(newTransaction);
@@ -153,24 +157,61 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isLandScape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    final appBar = AppBar(
+      title: const Text('Personal Expenses'),
+      actions: <Widget>[
+        if(isLandScape)
+        IconButton(
+          onPressed: () {
+            setState(() {
+              _showChart = !_showChart;
+            });
+          },
+          icon: Icon(_showChart ? Icons.list : Icons.show_chart),
+        ),
+        IconButton(
+          onPressed: () => _openTransactionFormModal(context),
+          icon: const Icon(Icons.add),
+        ),
+      ],
+    );
+    final availableHeight = MediaQuery.of(context).size.height -
+        appBar.preferredSize.height -
+        MediaQuery.of(context).padding.top;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Personal Expenses'),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => _openTransactionFormModal(context),
-            icon: const Icon(Icons.add),
-          ),
-        ],
-      ),
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // ignore: sized_box_for_whitespace
-            Chart(_recentTransactions),
-            TransactionList(transactions: _transactions, onRemove: _removeTransaction),
+            // if (isLandScape)
+            //   Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: <Widget>[
+            //       const Text('Display graph'),
+            //       Switch(
+            //         value: _showChart,
+            //         onChanged: (value) {
+            //           setState(() {
+            //             _showChart = value;
+            //           });
+            //         },
+            //       ),
+            //     ],
+            //   ),
+            if (_showChart || !isLandScape)
+              SizedBox(
+                  height: availableHeight * (isLandScape ? 0.73 : 0.27),
+                  child: Chart(_recentTransactions)),
+            if (!_showChart || !isLandScape)
+              SizedBox(
+                  height: availableHeight * 0.73,
+                  child: TransactionList(
+                      transactions: _transactions,
+                      onRemove: _removeTransaction)),
           ],
         ),
       ),

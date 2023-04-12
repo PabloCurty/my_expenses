@@ -71,89 +71,96 @@ class _TransactionFormState extends State<TransactionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, 
-          children: <Widget>[
-          TextField(
-            controller: _titleController,
-            onSubmitted: (_) => _submitForm(),
-            decoration: const InputDecoration(
-              labelText: 'Title',
-            ),
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 10,
+            right: 10,
+            left: 10,
+            bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
           ),
-          Container(
-            height: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              //border: Border.all(color: Colors.purple, width: 2),
-            ),
-            child: DropdownButtonHideUnderline(
-              child: DropdownButton<String>(
-                hint: const Text(
-                  'Expenses category',
-                  textAlign: TextAlign.center,
-                ),
-                value: dropDownValue,
-                isExpanded: true,
-                iconSize: 20,
-                icon: const Icon(Icons.arrow_drop_down_circle,
-                    color: Colors.purple),
-                items: itens.map(buildMenuItem).toList(),
-                onChanged: (value) => setState(() => dropDownValue = _expCategory.text = value.toString()),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween, 
+            children: <Widget>[
+            TextField(
+              controller: _titleController,
+              onSubmitted: (_) => _submitForm(),
+              decoration: const InputDecoration(
+                labelText: 'Title',
               ),
             ),
-          ),
-          TextField(
-            controller: _valueController,
-            keyboardType:
-                const TextInputType.numberWithOptions(decimal: true),
-            onSubmitted: (_) => _submitForm(),
-            decoration: const InputDecoration(
-              labelText: 'Value (R\$)',
-            ),
-          ),
-          SizedBox(
-            height: 70,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    _selectedDate == null
-                        ? 'No Date selected!'
-                        : 'Selected date: ${DateFormat('dd/MM/y').format(_selectedDate!)}',
+            Container(
+              height: 40,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                //border: Border.all(color: Colors.purple, width: 2),
+              ),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                  hint: const Text(
+                    'Expenses category',
+                    textAlign: TextAlign.center,
                   ),
+                  value: dropDownValue,
+                  isExpanded: true,
+                  iconSize: 20,
+                  icon: const Icon(Icons.arrow_drop_down_circle,
+                      color: Colors.purple),
+                  items: itens.map(buildMenuItem).toList(),
+                  onChanged: (value) => setState(() => dropDownValue = _expCategory.text = value.toString()),
                 ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+            TextField(
+              controller: _valueController,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              onSubmitted: (_) => _submitForm(),
+              decoration: const InputDecoration(
+                labelText: 'Value (R\$)',
+              ),
+            ),
+            SizedBox(
+              height: 70,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'No Date selected!'
+                          : 'Selected date: ${DateFormat('dd/MM/y').format(_selectedDate!)}',
+                    ),
                   ),
-                  onPressed: _showDatePicker,
-                  child: const Text(
-                    'Select the date',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                    ),
+                    onPressed: _showDatePicker,
+                    child: const Text(
+                      'Select the date',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                  ),
+                  onPressed: _submitForm,
+                  child: const Text('New Transaction'),
                 ),
               ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                ),
-                onPressed: _submitForm,
-                child: const Text('New Transaction'),
-              ),
-            ],
-          )
-        ]),
+            )
+          ]),
+        ),
       ),
     );
   }
